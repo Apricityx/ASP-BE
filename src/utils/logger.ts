@@ -18,6 +18,11 @@ class Logger {
         // 青色控制台信息
         console.log("\x1b[36m[Debug] %s\x1b[0m", message);
     }
+
+    connection(message: string) {
+        // 绿色控制台信息
+        console.log("\x1b[32m[New Connection] %s\x1b[0m", message);
+    }
 }
 
 const logger = new Logger();
