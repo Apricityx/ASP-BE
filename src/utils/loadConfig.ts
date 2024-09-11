@@ -3,21 +3,22 @@ import * as fs from 'fs';
 import {logger} from "@/utils/logger";
 import * as yaml from 'js-yaml';
 
+const configTemplate = {
+    server: '127.0.0.1',
+    port: 3000,
+    connection_max: 5000
+}
+type ServerConfig = typeof configTemplate;
 
 
-
-
-const Config = () => {
+const getConfig = () => {
 // 从文件中读取字符串
     const tomlPath = require.resolve('@/config.yaml'); // 获取数据库路径，数据库路径会被自动解析为绝对路径
     const tomlStr = fs.readFileSync(tomlPath, 'utf8');
     // logger.debug('读取字符串\n' + tomlStr);
     // 配置文件的默认值
-    let defaultConfig: {} = {
-        server: '127.0.0.1',
-        port: 3000,
-        connection_max: 5000
-    }
+    let defaultConfig: {} = configTemplate
+    type ServerConfig = typeof defaultConfig;
     // 将toml的字符串解析为对象
     let yamlConfig;
     try {
@@ -33,7 +34,7 @@ const Config = () => {
     // 写回配置到文件
     // logger.debug('写回配置' + yaml.dump(defaultConfig));
     fs.writeFileSync(tomlPath, yaml.dump(defaultConfig));
-
-    return defaultConfig;
+    return defaultConfig as ServerConfig;
 }
-export default Config;
+const Config = getConfig();
+export default Config as ServerConfig;
