@@ -22,13 +22,7 @@ class DBModifierClass {
         // 创建学生表
         db.prepare('CREATE TABLE StdData(' +
             'StdID TEXT PRIMARY KEY,' +
-            'StdName TEXT,' +
-            'StdPasswd TEXT,' +
-            'ATLoginCheck TIMESTAMP DEFAULT CURRENT_TIMESTAMP);').run();
-        db.prepare('INSERT INTO StdData (StdID, StdName, StdPasswd) VALUES (?, ?, ?)').run('2017212210', '张三', '123456')
-        db.prepare('INSERT INTO StdData (StdID, StdName, StdPasswd) VALUES (?, ?, ?)').run('2017212212', '张三', '123456')
-        const result = db.prepare('SELECT * FROM StdData').all();
-        logger.debug("数据库初始化成功：" + JSON.stringify(result));
+            'StdName TEXT').run();
         logger.warn("数据库已初始化");
     }
 }
