@@ -6,7 +6,7 @@ interface resType {
     stdPasswd: string
 }
 
-export const addSingleNewStd = (req: resType, res: any) => {
+export const add_single_new_std = (req: resType, res: any) => {
     try {
         db.prepare('INSERT INTO StdData (StdID, StdName, StdPasswd) VALUES (?, ?, ?)').run(req.stdID,req.stdName,req.stdPasswd);
     } catch (e: any) {

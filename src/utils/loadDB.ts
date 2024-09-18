@@ -1,5 +1,7 @@
 import Database from "better-sqlite3";
+import {logger} from "@/utils/logger";
 
-const dbPath = require.resolve('@/db/storage.db'); // 获取数据库路径，数据库路径会被自动解析为绝对路径
-const db = new Database(dbPath);
-export {db};
+// logger.debug(require.resolve('@/db/storage .db'));
+const db = new Database(require.resolve('@/db/storage.db'));
+const dbAM = new Database(require.resolve('@/db/assignment.db'));
+export {db, dbAM};

@@ -5,12 +5,14 @@ import 'module-alias/register';
 import {helloWorld} from "@/api/v1/ping";
 import {upload_file} from "@/api/v1/files/upload_file";
 import {logger} from "@/utils/logger";
-import {addSingleNewStd} from "@/api/v1/std_modify/add_single_std";
-import {init_database} from "@/api/v1/std_modify/init_database";
+import {add_single_new_std} from "@/api/v1/std_modify/add_single_std";
+import {init_database} from "@/api/v1/init_database";
 import Config from "@/utils/loadConfig";
 import multer from "multer";
 import * as fs from "node:fs";
-
+import {createAM} from "@/api/v1/am/create_am";
+import bodyParser from "body-parser";
+import {delete_am} from "@/api/v1/am/delete_am";
 // 从utils里引入辅助调试的工具：对象logger
 // logger对象有error,warn,info,debug四个函数
 // 四个函数对应不同的颜色输出文本到控制台
@@ -81,8 +83,21 @@ app.post('/api/v1/files/upload_file', upload.array('file'), upload_file); // upl
 // ============================================================================================
 // 新增学生API
 // 单个
-app.put('/api/v1/std_modify/add_single_std', addSingleNewStd)
-
+app.put('/api/v1/std_modify/add_single_std', add_single_new_std)
+// ============================================================================================
 // 重置学生数据库
-app.get('/api/v1/std_modify/init_database', init_database)
-
+app.get('/api/v1/init_database', init_database)
+// ============================================================================================
+// 新增作业
+app.use(bodyParser.json()); // 确保解析 JSON 请求体
+app.post('/api/v1/am/create_am', createAM)
+// ============================================================================================
+// 删除作业
+app.delete('/api/v1/am/delete_am/:id', delete_am)
+// ============================================================================================
+// 404
+app.use((req, res) => {
+    logger.error('Wrong URL request: ' + req.url);
+    res.status(404).send({message: '404 Not Found'});
+});
+// ============================================================================================
