@@ -13,6 +13,8 @@ import * as fs from "node:fs";
 import {createAM} from "@/api/v1/am/create_am";
 import bodyParser from "body-parser";
 import {delete_am} from "@/api/v1/am/delete_am";
+import {get_am} from "@/api/v1/am/get_am";
+import {get_std_name} from "@/api/v1/std/get_std_name";
 // 从utils里引入辅助调试的工具：对象logger
 // logger对象有error,warn,info,debug四个函数
 // 四个函数对应不同的颜色输出文本到控制台
@@ -95,6 +97,11 @@ app.post('/api/v1/am/create_am', createAM)
 // 删除作业
 app.delete('/api/v1/am/delete_am/:id', delete_am)
 // ============================================================================================
+// 获取作业
+app.get('/api/v1/am/get_am', get_am)
+// ============================================================================================
+// 获取学生名字
+app.get('/api/v1/std/get_std_name', get_std_name)
 // 404
 app.use((req, res) => {
     logger.error('Wrong URL request: ' + req.url);

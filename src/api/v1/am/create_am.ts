@@ -17,22 +17,27 @@ export const createAM = (req: any, res: any) => {
         return
     }
     db.prepare('INSERT INTO AM (name, deadline, description) VALUES (?, ?, ?)').run(AM.name, AM.deadline, AM.description)
-    dbAM.prepare('CREATE TABLE ' + AM.name + "(StdID TEXT,StdName TEXT,is_submitted BOOLEAN DEFAULT(0), submit_time TEXT NOT NULL DEFAULT (DATETIME('now', 'localtime')))").run()
+    try {
+        dbAM.prepare('CREATE TABLE ' + AM.name + "(StdID TEXT,StdName TEXT,is_submitted BOOLEAN DEFAULT(0), submit_time TEXT NOT NULL DEFAULT (DATETIME('now', 'localtime')))").run()
 
-    interface STD {
-        StdID: string
-        StdName: string
+        interface STD {
+            StdID: string
+            StdName: string
+        }
+
+        const getStdList = () => {
+            return db.prepare('SELECT StdID,StdName FROM StdData').all() as STD[]
+        }
+        const Stds = getStdList()
+
+        for (const Std of Stds) {
+            // logger.debug('INSERT TABLE "' + AM.name + '" (StdID, StdName) VALUES (?, ?)')
+            dbAM.prepare('INSERT INTO "' + AM.name + '" (StdID, StdName) VALUES (?, ?)').run(Std.StdID, Std.StdName)
+        }
+        res.send({message: 'AM created'})
+    } catch (e) {
+        logger.warn('创建表失败：' + e)
+        db.prepare('DELETE FROM AM WHERE name = ?').run(AM.name)
+        res.send({message: 'AM create failed'})
     }
-
-    const getStdList = () => {
-        return db.prepare('SELECT StdID,StdName FROM StdData').all() as STD[]
-    }
-    const Stds = getStdList()
-
-
-    for (const Std of Stds) {
-        // logger.debug('INSERT TABLE "' + AM.name + '" (StdID, StdName) VALUES (?, ?)')
-        dbAM.prepare('INSERT INTO "' + AM.name + '" (StdID, StdName) VALUES (?, ?)').run(Std.StdID, Std.StdName)
-    }
-    res.send({message: 'AM created'})
 }
