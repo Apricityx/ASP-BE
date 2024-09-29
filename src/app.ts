@@ -16,6 +16,7 @@ import {delete_am} from "@/api/v1/am/delete_am";
 import {get_am} from "@/api/v1/am/get_am";
 import {get_std_name} from "@/api/v1/std/get_std_name";
 import {get_std_id_list} from "@/api/v1/std/get_std_id_list";
+import {get_std_list} from "@/api/v1/std/get_std_list";
 // 从utils里引入辅助调试的工具：对象logger
 // logger对象有error,warn,info,debug四个函数
 // 四个函数对应不同的颜色输出文本到控制台
@@ -104,8 +105,11 @@ app.get('/api/v1/am/get_am', get_am)
 // 获取学生名字
 app.get('/api/v1/std/get_std_name', get_std_name)
 // ============================================================================================
-// 获取学生列表
+// 获取学生ID列表
 app.get('/api/v1/std/get_std_id_list', get_std_id_list)
+// ============================================================================================
+// 获取学生完整列表
+app.get('/api/v1/students/get_std_list', get_std_list)
 // 404
 app.use((req, res) => {
     logger.error('Wrong URL request: ' + req.url);
