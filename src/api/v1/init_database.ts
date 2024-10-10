@@ -15,7 +15,7 @@ export const init_database = (req: any, res: any) => {
             'StdName TEXT);').run();
 
         db.prepare('CREATE TABLE AM (' +
-            'id INTEGER PRIMARY KEY AUTOINCREMENT,' +
+            'id TEXT PRIMARY KEY,' +
             'name TEXT,' +
             'deadline TEXT,' +
             'description TEXT' +

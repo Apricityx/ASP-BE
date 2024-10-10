@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
+    "outDir": "./server",
     "baseUrl": "./src",  // 项目根目录，一般是源码文件夹
+    "rootDir": "./src",
     "paths": {
       "@/*": ["*"]  // @ 别名的配置
     },
@@ -16,5 +18,7 @@
     /* Enable all strict type-checking options. */
     "skipLibCheck": true,
     /* Skip type checking all .d.ts files. */
-  }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "server"],
 }
